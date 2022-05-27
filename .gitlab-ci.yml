@@ -1,0 +1,22 @@
+image: registry.home.dirkengels.com:5000/dew-dockerimage
+
+variables:
+  DOCKER_REGISTRY_HOST: registry.home.dirkengels.com:5000
+  IMAGE_NAME: dirkengels-blog
+  IMAGE_LATEST: latest
+  IMAGE_VERSION: '0.1.1'
+  DOCKER_PORT: 8001
+
+stages:
+  - deploy
+
+before_script:
+  - echo '$DOCKER_REGISTRY_PASS' | docker login -u '$DOCKER_REGISTRY_USER' --password-stdin registry.home.dirkengels.com:5000
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying docker image"
+    - git --version
+    - composer install
+
