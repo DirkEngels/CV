@@ -1,6 +1,6 @@
 version: '3'
 services:
-  example.org:
+  dirkengels-cv:
     image: flashspys/nginx-static
     container_name: cv.dirkengels.com
     ports:
