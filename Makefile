@@ -8,6 +8,7 @@ VOLUMES	  = -v /var/run/docker.sock=/var/run/docker.sock
 
 APP_NAME = dirkengels-cv
 APP_PORT = 8081
+DOCKER_SWARM_ENABLED = $(docker info --format '{{.Swarm.ControlAvailable}}')
 
 #include .env
 
