@@ -60,7 +60,7 @@ clean: stop											## Remove resources from the build process
 start:												## Starts the docker container image
 ifeq ($(UPTIME),0)
 	@echo "  Status:\t\t$(COLOR_BLUE)STARTING$(COLOR_RESET)";
-	docker-compose -f docker-compose.yml --env-file=.env up -d
+	docker-compose -f docker-compose.yml --env-file=.env up -d --remove-orphans
 	@echo "  Status:\t\t$(COLOR_GREEN)STARTED$(COLOR_RESET)";
 endif
 ifneq ($(UPTIME),0)
