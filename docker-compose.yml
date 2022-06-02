@@ -2,10 +2,9 @@ version: '3'
 services:
   dirkengels-cv:
     image: flashspys/nginx-static
-    container_name: cv.dirkengels.com
     ports:
       - 8087:80
     volumes: 
       - .:/static
     deploy:
-      replicas: 2
+      replicas: 1
