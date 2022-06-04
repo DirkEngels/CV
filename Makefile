@@ -60,7 +60,11 @@ clean: stop											## Remove resources from the build process
 start:												## Starts the docker container image
 ifeq ($(UPTIME),0)
 	@echo "  Status:\t\t$(COLOR_BLUE)STARTING$(COLOR_RESET)";
+ifeq ($(HOMEBOX_DEPLOY_MODE),swarm)
+    bash -c "set -a && source .env && docker stack deploy -c docker-compose.yml $(APP_NAME)"
+else
 	docker-compose -f docker-compose.yml --env-file=.env up -d --remove-orphans
+endif
 	@echo "  Status:\t\t$(COLOR_GREEN)STARTED$(COLOR_RESET)";
 endif
 ifneq ($(UPTIME),0)
@@ -74,7 +78,11 @@ endif
 ###
 stop:												   ## Stops the docker container image
 ifneq ($(UPTIME),0)
+ifeq ($(HOMEBOX_DEPLOY_MODE),swarm)
+    bash -c "set -a && source .env && docker stack rm $(APP_NAME)"
+else
 	docker-compose -f docker-compose.yml --env-file=.env down
+endif
 endif
 	@echo "  Status:\t\t$(COLOR_RED)STOPPED$(COLOR_RESET)"
 
