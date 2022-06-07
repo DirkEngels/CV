@@ -127,3 +127,5 @@ endif
 ###
 deploy:												   ## Deploys to a docker swarm cluster 
 	@echo "APP: $(DOCKER_OWNER)-$(APP_NAME)"
+	@make stop
+	@make start
