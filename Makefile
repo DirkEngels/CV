@@ -8,7 +8,7 @@ VOLUMES	  = -v /var/run/docker.sock=/var/run/docker.sock
 
 APP_NAME = dirkengels-cv
 APP_PORT = 8081
-DOCKER_SWARM_ENABLED = $(docker info --format '{{.Swarm.ControlAvailable}}')
+DOCKER_SWARM_ENABLED = $(shell docker info --format '{{.Swarm.ControlAvailable}}' )
 
 #include .env
 
@@ -21,7 +21,7 @@ COLOR_ORANGE=\e[33m
 COLOR_BLUE=\e[34m
 
 # Detect current status (and uptime)
-UPTIME := $(shell docker-compose --env-file .env ps | grep $(APP_NAME) | awk -F' {2,}' '{ print $$5 }' | wc -l )
+UPTIME := $(shell docker compose --env-file .env ps | grep $(APP_NAME) | awk -F' {2,}' '{ print $$5 }' | wc -l )
 
 
 
@@ -60,10 +60,10 @@ clean: stop											## Remove resources from the build process
 start:												## Starts the docker container image
 ifeq ($(UPTIME),0)
 	@echo "  Status:\t\t$(COLOR_BLUE)STARTING$(COLOR_RESET)";
-ifeq ($(HOMEBOX_DEPLOY_MODE),swarm)
-    bash -c "set -a && source .env && docker stack deploy -c docker-compose.yml $(APP_NAME)"
+ifeq ($(DOCKER_SWARM_ENABLED),true)
+	bash -c "set -a && source .env && docker stack deploy -c docker-compose.yml $(APP_NAME)"
 else
-	docker-compose -f docker-compose.yml --env-file=.env up -d --remove-orphans
+	docker compose -f docker-compose.yml --env-file=.env up -d --remove-orphans
 endif
 	@echo "  Status:\t\t$(COLOR_GREEN)STARTED$(COLOR_RESET)";
 endif
@@ -78,10 +78,10 @@ endif
 ###
 stop:												   ## Stops the docker container image
 ifneq ($(UPTIME),0)
-ifeq ($(HOMEBOX_DEPLOY_MODE),swarm)
+ifeq ($(DOCKER_SWARM_ENABLED),true)
     bash -c "set -a && source .env && docker stack rm $(APP_NAME)"
 else
-	docker-compose -f docker-compose.yml --env-file=.env down
+	docker compose -f docker-compose.yml --env-file=.env down
 endif
 endif
 	@echo "  Status:\t\t$(COLOR_RED)STOPPED$(COLOR_RESET)"
@@ -115,7 +115,7 @@ remove:												 ## Removes the docker container
 ###
 log:													## Tail the docker container logs
 ifneq ($(UPTIME),0)
-	docker-compose --env-file .env logs -f -t
+	docker compose --env-file .env logs -f -t
 endif
 ifeq ($(UPTIME),0)
 	@echo "  Status:\t\t$(COLOR_RED)STOPPED$(COLOR_RESET)"
