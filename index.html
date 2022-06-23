@@ -19,7 +19,39 @@
     <!-- Theme CSS -->  
     <link id="theme-style" rel="stylesheet" href="css/orbit-6.css">
     <!-- Word Cloud CSS -->  
-    <link rel="stylesheet" href="css/wordcloud.css">   
+    <link rel="stylesheet" href="css/wordcloud.css">
+    <style type="text/css" media="print">
+
+      section.experiences-section {
+	page-break-after: always;
+      }
+      div.item {
+	margin-bottom: 0px;
+      }
+      div.container-block {
+	margin-bottom: 0px;
+      }
+      div.profile-container {
+    	background: none !important;
+    	color: #545E6C !important;
+      }
+      div.sidebar-wrapper {
+    	background: none !important;
+    	color: #545E6C !important;
+      }
+      div.contact-container {
+    	display: none !important;
+      }
+      .tagline {
+    	color: #545E6C !important;
+      }
+      div.other-container {
+    	display: none !important;
+      }
+      div.print-new-page {
+	height: 50px;
+      }
+    </style>
 </head> 
 
 <body>
@@ -89,7 +121,9 @@
                     <li>Zend Certification</li>
                 </ul>
             </div><!--//other-->
-            
+           
+	    <div class="print-new-page">
+	    </div>
         </div><!--//sidebar-wrapper-->
         
         <div class="main-wrapper">
